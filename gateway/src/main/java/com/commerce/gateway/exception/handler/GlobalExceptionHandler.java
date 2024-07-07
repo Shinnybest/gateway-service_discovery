@@ -22,7 +22,7 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.*
 @Component
 @Order(-1)
 public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
-    
+
     public GlobalExceptionHandler(GlobalErrorAttributes globalErrorAttributes,
                                   ApplicationContext applicationContext,
                                   ServerCodecConfigurer serverCodecConfigurer) {
