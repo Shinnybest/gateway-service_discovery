@@ -1,5 +1,7 @@
 package com.commerce.gateway.filter;
 
+import com.commerce.gateway.exception.AuthenticationException;
+import com.commerce.gateway.exception.ErrorCode;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
@@ -52,7 +54,7 @@ public class TokenAuthenticationFilter implements GlobalFilter {
             jwtProcessor.setJWSKeySelector(keySelector);
             jwtProcessor.process(SignedJWT.parse(token), null);
         } catch (Exception exception) {
-            throw new RuntimeException(exception.getMessage());
+            throw new AuthenticationException(ErrorCode.FAILED_VERIFY_TOKEN);
         }
     }
 
@@ -61,7 +63,7 @@ public class TokenAuthenticationFilter implements GlobalFilter {
             var claims = SignedJWT.parse(jwt).getJWTClaimsSet();
             return claims.getSubject();
         } catch (Exception exception) {
-            throw new RuntimeException(exception.getMessage());
+            throw new AuthenticationException(ErrorCode.FAILED_EXTRACT_PAYLOAD);
         }
     }
 
